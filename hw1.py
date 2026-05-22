@@ -16,7 +16,7 @@ import random
 
 ##############################################################################################################################
 
-game = ShapePlacementGrid(GUI=False, render_delay_sec=0.001, gs=6, num_colored_boxes=5)
+game = ShapePlacementGrid(GUI=False, render_delay_sec=0.001, gs=11, num_colored_boxes=5)
 shapePos, currentShapeIndex, currentColorIndex, grid, placedShapes, done = game.execute('export')
 np.savetxt('initial_grid.txt', grid, fmt="%d")
 
@@ -137,7 +137,8 @@ while not game.checkGrid(game.grid) and iterations < MAX_ITERATIONS:
         if len(placedShapes) != len(initial_placed_shapes):
             game.execute("undo")
     bad_iterations += 1
-    if bad_iterations >= 200 or random.random() < 0.001: #random restart
+    if bad_iterations >= (game.gridSize ** 1.5) * 100 or random.random() < 0.0001: #random restart
+        print("random restart")
         bad_iterations = 0
         t = 0.7
         while len(game.placedShapes) > 0:
