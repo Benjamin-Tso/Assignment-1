@@ -134,8 +134,8 @@ while not game.checkGrid(game.grid) and iterations < MAX_ITERATIONS:
         if len(placedShapes) > len(initial_placed_shapes) and keep_change(of1, of2, t):
             bad_iterations = 0
             continue
-    if len(placedShapes) != len(initial_placed_shapes):
-        game.execute("undo")
+        if len(placedShapes) != len(initial_placed_shapes):
+            game.execute("undo")
     bad_iterations += 1
     if bad_iterations >= 200 or random.random() < 0.001: #random restart
         bad_iterations = 0
