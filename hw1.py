@@ -137,8 +137,10 @@ while not game.checkGrid(game.grid) and iterations < MAX_ITERATIONS:
         if len(placedShapes) != len(initial_placed_shapes):
             game.execute("undo")
     bad_iterations += 1
-    if bad_iterations >= (game.gridSize ** 1.5) * 100 or random.random() < 0.0001: #random restart
+    if bad_iterations >= (3 ** game.gridSize) * 100 or random.random() < 10 ** (0 - game.gridSize//2): #random restart
         print("random restart")
+        _, _, _, grid, _, _ = game.execute('export')
+        print(grid)
         bad_iterations = 0
         t = 0.7
         while len(game.placedShapes) > 0:
