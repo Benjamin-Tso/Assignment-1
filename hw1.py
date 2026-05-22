@@ -68,6 +68,13 @@ start = time.time()  # <- do not modify this.
 
 
 def find_random_pos(game):
+    # if int(np.sum(game.grid == -1))/(game.gridSize **2) < 0.1:
+    #     empty_pos = []
+    #     for row in range(len(game.grid)):
+    #         for col in range(len(game.grid[row])):
+    #             if game.grid[row][col] == -1:
+    #                 empty_pos.append((row,col))
+    #     return random.choice(empty_pos)
     return (random.randint(0,game.gridSize-game.shapesDims[game.currentShapeIndex][0]), random.randint(0,game.gridSize-game.shapesDims[game.currentShapeIndex][1]))
 
 def obj(a, b, c, game):
@@ -110,17 +117,18 @@ t = 0.7
 bad_iterations = 0
 iterations = 0
 MAX_ITERATIONS = 5 ** game.gridSize
+MAX_BAD_ITERATIONS = (3 ** game.gridSize) * 100
 shape_cells = [int(s.sum()) for s in game.shapes]
 while not game.checkGrid(game.grid) and iterations < MAX_ITERATIONS:
     iterations += 1
-    progress = iterations / MAX_ITERATIONS
+    progress = bad_iterations/MAX_BAD_ITERATIONS
     shape_weights = [1.0 / (cells ** (5 * progress)) for cells in shape_cells]
     shape = random.choices(range(len(game.shapes)), weights=shape_weights, k=1)[0]
     while game.currentShapeIndex != shape:
         game.execute("switchshape")
     x, y = find_random_pos(game)
     color = find_valid_color(game, game.currentShapeIndex, (x, y))
-    if color:
+    if color is not None:
         initial_placed_shapes = list(game.placedShapes)
         nav_to(game, x, y)
         while game.currentColorIndex != color:
@@ -137,7 +145,7 @@ while not game.checkGrid(game.grid) and iterations < MAX_ITERATIONS:
         if len(placedShapes) != len(initial_placed_shapes):
             game.execute("undo")
     bad_iterations += 1
-    if bad_iterations >= (3 ** game.gridSize) * 100 or random.random() < 10 ** (0 - game.gridSize//2): #random restart
+    if bad_iterations >= MAX_BAD_ITERATIONS or random.random() < 10 ** (0 - game.gridSize//2): #random restart
         print("random restart")
         _, _, _, grid, _, _ = game.execute('export')
         print(grid)
