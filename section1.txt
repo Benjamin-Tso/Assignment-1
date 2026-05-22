@@ -1,0 +1,16 @@
+Section 1 - Design
+Q1. What do you consider a ‘state’ in this environment? How would you define a ‘neighboring state’ for this problem?
+    I will consider a state in this environment to be some board state at any point, a neighboring state would be one with one 
+    more or fewer shapes
+Q2. First-choice local search requires that you move to a random neighboring state. How
+do you (plan to) implement random neighbor selection? Explain in 1-2 sentences.
+    a random neighbor selection would be done by randomly adding or removing a brush stroke, the added brush stroke's position and color will be random
+Q3. Specify your objective function. Are all constraints modeled through the objective
+function, or are some treated as explicit rules? Explain your choices.
+    Because the goal is to use 1. as few colors, 2. as few shapes, 3. no adjacent cells matching colors, and 4. fill the board
+    the objective function will be a product of a measure of the 3, in some variation of
+    a(# of colors) + b(# of shapes) + c(# of empty cells)
+    where the goal is to minimize
+Q4. Draw an end-to-end overview diagram/flowchart for your (proposed) local search approach. 
+If using any extensions to local search (such as random bad moves or restarts),
+that workflow must be reflected in your flowchart. 
